@@ -24,13 +24,24 @@ function returnWeather(){
         $("#humidity").append(humidity);
         var windSpeed = $("<p>").text(response.wind.speed);
         $("#wind").append(windSpeed);
+        uvReturn(response.coord.lon, response.coord.lat);
+
     });
-
-
-
     
 }
 
+function uvReturn(lon, lat){
+    var uvURL="https://api.openweathermap.org/data/2.5/uvi?appid="+apiKey+"&lat="+lat+"&lon="+lon;
+    console.log(uvURL);
+    $.ajax({
+        url:uvURL,
+        method:"GET"
+    })
+    .then(function(response){
+        var uvIndex = $("<p>").text(response.value);
+        $("#uvIndex").append(uvIndex);
+    });
+}
 // function to run once the search button is clicked
 $("#searchBtn").on("click", function(event) {
     event.preventDefault();
