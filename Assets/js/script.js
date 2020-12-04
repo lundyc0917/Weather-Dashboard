@@ -12,12 +12,15 @@ function returnWeather(){
 
     var cityURL = "https://api.openweathermap.org/data/2.5/weather?id="+cityNameEl+"&appid="+apiKey;
     console.log(cityURL);
-    return cityURL;  
+    return cityURL;
 }
 
 
 
 $("#searchBtn").on("click", function(event) {
     event.preventDefault();
-    var queryURL = returnWeather();
+    var searchURL = returnWeather();
+    console.log(searchURL);
+    return searchURL;
+
   });
