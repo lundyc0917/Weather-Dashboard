@@ -1,5 +1,6 @@
 var apiKey = "a5599c7df51f4d43c94489d4ea681d06";
 
+
 // function to run once the search button is clicked
 $("#searchBtn").on("click", function(event) {
     event.preventDefault();
@@ -31,7 +32,7 @@ returnWeather($(this).text());
 
 // function to return the url to find the city.
 function returnWeather(searchCity){
-    console.log(searchCity);
+    // console.log(searchCity);
     
     const settings = {
         "url" : "https://api.openweathermap.org/data/2.5/weather?q="+searchCity+"&units=imperial&appid="+apiKey,
@@ -39,7 +40,7 @@ function returnWeather(searchCity){
     }
 
     $.ajax(settings).done(function (response){
-        console.log(response);
+        // console.log(response);
 
         var temperature = response.main.temp;
         var humidity = response.main.humidity;
@@ -60,8 +61,15 @@ function uvReturn(lon, lat){
     }
     
     $.ajax(settings).done(function (response){
+        console.log(response);
         var uvIndex = response.value;
-        $("#weatherInfo").append("<p>UV Index: "+uvIndex+"</p>");
+        if (uvIndex <= "2"){
+            $("#weatherInfo").append("<p>UV Index: <a class='bg-success'>"+uvIndex+"</a></p>");
+        } else if(uvIndex >"2" && uvIndex < "6"){
+            $("#weatherInfo").append("<p>UV Index: <a class='bg-warning'>"+uvIndex+"</a></p>");
+        } else{
+            $("#weatherInfo").append("<p>UV Index: <a class='bg-danger'>"+uvIndex+"</a></p>");
+        }
     });
 }
 
@@ -72,7 +80,7 @@ function returnForecast (lon, lat){
     }
     $("#5dayForecast").html("<h2>5 day forecast</h2><div class='row' id='dayForecast'></div>")
     $.ajax(settings).done(function (response){
-        console.log(response);
+        // console.log(response);
         for(let i=0; i < 5; i++){
             var tempLow = Math.floor(response.daily[i].temp.min);
             var tempHigh = Math.floor(response.daily[i].temp.max);
