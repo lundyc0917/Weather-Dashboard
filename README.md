@@ -8,10 +8,10 @@ https://lundyc0917.github.io/Weather-Dashboard/
 Create a site where users can go and search for a city and see the current weather as well as the forecast for the next 5 days.
 
 ## Build Status
-build | in-progress
+build | working
 
 ## Screen Shot
-![empty_screenshot](https://user-images.githubusercontent.com/71233342/101119114-9f6e6980-35b8-11eb-8f8c-040240027d19.png)
+![weather-dashboard](https://user-images.githubusercontent.com/71233342/102418473-ce7ad700-3fcb-11eb-8eb4-ddc039524487.png)
 
 
 ## Framework
@@ -30,21 +30,45 @@ When the user enters a city name and hits "search", they are shown the current t
 .js code
 
 `````````````````````````
-function returnWeather(){
-    cityNameEl = $("#cityName").val().trim();
+function returnWeather(searchCity){
+    // console.log(searchCity);
+    
+    const settings = {
+        "url" : "https://api.openweathermap.org/data/2.5/weather?q="+searchCity+"&units=imperial&appid="+apiKey,
+        "method" : "GET"
+    }
 
-    console.log(cityNameEl);
+    $.ajax(settings).done(function (response){
+        // console.log(response);
 
-    var cityURL = "https://api.openweathermap.org/data/2.5/weather?id="+cityNameEl+"&appid="+apiKey;
-    console.log(cityURL);
-    return cityURL;
+        var temperature = response.main.temp;
+        var humidity = response.main.humidity;
+        var windSpeed =response.wind.speed;
+
+        $("#weatherInfo").html("<h2>"+searchCity+"</h2><p>Temperature: "+temperature+"</p><p>Humidity: "+humidity+"</p><p>Wind Speed: "+windSpeed+"</p>");
+
+        uvReturn(response.coord.lon, response.coord.lat);
+        returnForecast(response.coord.lon, response.coord.lat);
+    });
 }
 
-$("#searchBtn").on("click", function(event) {
-    event.preventDefault();
-    var searchURL = returnWeather();
-    console.log(searchURL);
-    return searchURL;
 
-  });
+function uvReturn(lon, lat){
+    const settings = {
+        "url" : "https://api.openweathermap.org/data/2.5/uvi?appid="+apiKey+"&lat="+lat+"&lon="+lon,
+        "method" : "GET"
+    }
+    
+    $.ajax(settings).done(function (response){
+        console.log(response);
+        var uvIndex = response.value;
+        if (uvIndex <= "2"){
+            $("#weatherInfo").append("<p>UV Index: <a class='bg-success'>"+uvIndex+"</a></p>");
+        } else if(uvIndex >"2" && uvIndex < "6"){
+            $("#weatherInfo").append("<p>UV Index: <a class='bg-warning'>"+uvIndex+"</a></p>");
+        } else{
+            $("#weatherInfo").append("<p>UV Index: <a class='bg-danger'>"+uvIndex+"</a></p>");
+        }
+    });
+}
 `````````````````````````
