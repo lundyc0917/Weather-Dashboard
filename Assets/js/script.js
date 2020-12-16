@@ -16,7 +16,7 @@ $("#searchBtn").on("click", function(event) {
 
 function cityRecent(){
     var recallCity = localStorage.getItem("recentSearch");
-    var cityReturn = $("<button class='btn'>").text(recallCity);
+    var cityReturn = $("<button class='btn btn-secondary' style='margin: 5px'>").text(recallCity);
     var searchReturn = $("<a>");
     searchReturn.append(cityReturn);
     $("#recentCityList").prepend(cityReturn);
@@ -67,18 +67,18 @@ function uvReturn(lon, lat){
 
 function returnForecast (lon, lat){
     const settings= {
-        "url": "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&exclude=current,minutely,hourly,alerts&appid="+apiKey,
+        "url": "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&units=imperial&exclude=current,minutely,hourly,alerts&appid="+apiKey,
         "method": "GET"
     }
     $("#5dayForecast").html("<h2>5 day forecast</h2><div class='row' id='dayForecast'></div>")
     $.ajax(settings).done(function (response){
         console.log(response);
         for(let i=0; i < 5; i++){
-            var tempLow = response.daily[i].temp.min;
-            var tempHigh = response.daily[i].temp.max;
+            var tempLow = Math.floor(response.daily[i].temp.min);
+            var tempHigh = Math.floor(response.daily[i].temp.max);
             var weatherDate = moment.unix(response.daily[i].dt).format("M/D/YYYY");
             var iconLink = "'http://openweathermap.org/img/wn/"+response.daily[i].weather[0].icon+"@2x.png'";
-            $("#dayForecast").append("<div class='card'><div class='card-body bg-primary text-white'><h5>"+weatherDate+"</h5><img src="+iconLink+"><p> High: "+tempHigh+"</p><p> Low: "+tempLow+"</p></div></div>");
+            $("#dayForecast").append("<div class='card'><div class='card-body bg-primary text-white'><h5>"+weatherDate+"</h5><img src="+iconLink+"><p> High: "+tempHigh+" &degF</p><p> Low: "+tempLow+" &degF</p></div></div>");
         }
     });
 }
