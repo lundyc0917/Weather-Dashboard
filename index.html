@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
     <title>Weather Dashboard</title>
   </head>
 
   <!-- Style for page -->
   <style>
-
+    
 
   </style>
 
@@ -22,16 +21,14 @@
       <h1 class="text-center">Weather Dashboard</h1>
     </header>
     <!-- Page Container -->
-    <div class="container">
+    <div class="container col-md-8">
       <!-- Create rows for search bar, weather info, and 5 day forcast -->
       <div class="row">
         <div class="col-md-4" style="background-color: lightgrey;">
           <h4>Enter City to Search for:</h4>
           <div class="input-group">
             <input id="cityName" type="text" class="form-control">
-            <div>
-              <button class="btn btn-primary" id="searchBtn">Search</button>
-            </div>
+            <button class="btn btn-primary" id="searchBtn">Search</button>
           </div>
         </div>
         <!-- List for recent searches -->
@@ -43,43 +40,11 @@
           <div class="row ml-4 border border-dark rounded">
             <div class="p-3" id="weatherInfo">
               <h2 id="cityName"></h2>
-              <p>Temperature:<span id="temp"></span></p>
-              <p>Humidity:<span id="humidity"></span></p>
-              <p>Wind Speed:<span id="wind"></span></p>
-              <p>UV index:<span id="uvIndex"></span></p>
             </div>
           </div>
 
           <!-- Current city 5 day forecast -->
-          <div class="col-md-12" id="5dayForecest">
-            <h2>5 day forecast</h2>
-            <div class="row">
-              <div class="col-2">
-                <h3 id="day0"></h3>
-                <p>TEMP<span></span></p>
-                <p>HUMIDITY<span></span></p>
-              </div>  
-              <div class="col-2">
-                <h3 id="day1"></h3>
-                <p>TEMP<span></span></p>
-                <p>HUMIDITY<span></span></p>
-              </div>
-              <div class="col-2">
-                <h3 id="day2"></h3>
-                <p>TEMP<span></span></p>
-                <p>HUMIDITY<span></span></p>
-              </div>
-              <div class="col-2">
-                <h3 id="day3"></h3>
-                <p>TEMP<span></span></p>
-                <p>HUMIDITY<span></span></p>
-              </div>
-              <div class="col-2">
-                <h3 id="day4"></h3>
-                <p>TEMP<span></span></p>
-                <p>HUMIDITY<span></span></p>
-              </div>
-          </div>
+          <div class="col-md-12" id="5dayForecast">
           </div>
         </div>
       </div>
