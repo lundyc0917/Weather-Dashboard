@@ -5,11 +5,27 @@ $("#searchBtn").on("click", function(event) {
     event.preventDefault();
 
     var searchCity = $("#cityName").val().trim();
-    $("#5dayForecast").html("<h2>5 day forecast</h2><div class='row' id='dayForecast'>")
 
-    console.log(searchCity);
+
+    var recentStorage = $(this).siblings("#cityName").val();
+    localStorage.setItem("recentSearch", recentStorage);
 
     returnWeather(searchCity);
+    cityRecent(searchCity);
+});
+
+function cityRecent(){
+    var recallCity = localStorage.getItem("recentSearch");
+    var cityReturn = $("<button class='btn'>").text(recallCity);
+    var searchReturn = $("<a>");
+    searchReturn.append(cityReturn);
+    $("#recentCityList").prepend(cityReturn);
+  }
+  
+  // recall city on click
+$("#recentCityList").on("click", ".btn", function(event){
+event.preventDefault();
+returnWeather($(this).text());
 });
 
 
@@ -54,6 +70,7 @@ function returnForecast (lon, lat){
         "url": "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&exclude=current,minutely,hourly,alerts&appid="+apiKey,
         "method": "GET"
     }
+    $("#5dayForecast").html("<h2>5 day forecast</h2><div class='row' id='dayForecast'></div>")
     $.ajax(settings).done(function (response){
         console.log(response);
         for(let i=0; i < 5; i++){
